@@ -23,20 +23,18 @@ def viewLamps():
     r = requests.get(url=URL + "/view", timeout=5)
     return r.json()
 
-def initLamp(id):
-    requests.get(url=URL + "/create?id=" + id)
+def initLamp(id, color, brightness):
+    requests.get(url=URL + "/create?id=" + id + "&color=" + color + "&brightness=" + brightness)
 
 if __name__ == "__main__":
-    id = input("Enter Lamp ID: ")
-    initLamp(id)
-    
+    id = "gw"
     color = "white"
     brightness = "50"
     light.white()
-       
+  
     print("Scanning for changes...")
-    try:
-        while True:
+    while True:
+        try:
             sleep(2)
             new_data = viewLamps()
             if new_data == None: continue
@@ -44,7 +42,7 @@ if __name__ == "__main__":
             lamp = new_data.get(id)
             if lamp == None:
                 print("\nLamp not in databse; creating new one.")
-                initLamp(id)
+                initLamp(id, color, brightness)
                 continue
             
             changed = False
@@ -73,7 +71,9 @@ if __name__ == "__main__":
                     elif color == "cyan": light.lightBlue()
                     elif color == "purple": light.purple()
                     else: light.white()
-            
-    except Exception as e:
-        light.turnOff()
-        exit(print("\n", e, "\n"))
+
+        except KeyboardInterrupt:
+            exit(light.turnOff()) 
+        except Exception as e:
+            print(e)
+            pass
