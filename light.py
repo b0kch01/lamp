@@ -1,15 +1,12 @@
-#libraries
 import RPi.GPIO as GPIO
-from time import sleep
-#disable warnings (optional)
+
 GPIO.setwarnings(False)
-#Select GPIO Mode
 GPIO.setmode(GPIO.BCM)
-#set red,green and blue pins
+
 redPin = 18
 greenPin = 15
 bluePin = 14
-#set pins as outputs
+
 GPIO.setup(redPin,GPIO.OUT)
 GPIO.setup(greenPin,GPIO.OUT)
 GPIO.setup(bluePin,GPIO.OUT)
